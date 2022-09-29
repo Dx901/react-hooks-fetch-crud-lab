@@ -17,15 +17,32 @@ function QuestionForm(props) {
     });
   }
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    console.log(formData);
+  function formatData(data) {
+    return{
+      prompt:data.prompt,
+      answers:[data.answer1, data.answer2, data.answer3, data.answer4],
+      correctIndex: data.correctIndex
+    }
   }
+
+  // function handleSubmit(event) {
+  //   event.preventDefault();
+  //   fetch('http://localhost:4000/questions', {
+  //     method: 'POST',
+  //     headers: {
+  //       "content-Type": 'application/json',
+  //     },
+  //     body: JSON.stringify(formatData(formData))
+  //     .then((r) => r.json())
+  //     .then((data => onAddQuestion(data)))
+  //   } 
+    //console.log(formData);
+  //)}
 
   return (
     <section>
       <h1>New Question</h1>
-      <form onSubmit={handleSubmit}>
+      <form >
         <label>
           Prompt:
           <input
