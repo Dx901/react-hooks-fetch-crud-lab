@@ -17,32 +17,39 @@ function QuestionForm(props) {
     });
   }
 
-  function formatData(data) {
-    return{
-      prompt:data.prompt,
-      answers:[data.answer1, data.answer2, data.answer3, data.answer4],
-      correctIndex: data.correctIndex
-    }
-  }
+  function handleSubmit(event) {
+    event.preventDefault();
 
-  // function handleSubmit(event) {
-  //   event.preventDefault();
-  //   fetch('http://localhost:4000/questions', {
-  //     method: 'POST',
-  //     headers: {
-  //       "content-Type": 'application/json',
-  //     },
-  //     body: JSON.stringify(formatData(formData))
-  //     .then((r) => r.json())
-  //     .then((data => onAddQuestion(data)))
-  //   } 
-    //console.log(formData);
-  //)}
+    let correctFormat={
+      prompt: formData.prompt,
+      answers: [formData.answer1, formData.answer2, formData.answer3, formData.answer4],
+      correctIndex: formData.correctIndex,
+    }
+
+    fetch('http://localhost:4000/questions',{
+      method: 'POST',
+      headers:{
+        'Content-Type' : 'application/json'
+      },
+      body: JSON.stringify(correctFormat)
+    })
+    .then(() => {
+      setFormData({
+        prompt: "",
+        answer1: "",
+        answer2: "",
+        answer3: "",
+        answer4: "",
+        correctIndex: 0,
+      })
+      props.onUpdate()
+    });
+  }
 
   return (
     <section>
       <h1>New Question</h1>
-      <form >
+      <form onSubmit={handleSubmit}>
         <label>
           Prompt:
           <input

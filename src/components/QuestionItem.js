@@ -1,7 +1,6 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 
-
-function QuestionItem({ question, onDeleteQuestion }) {
+function QuestionItem({ question, onDelete, onChange }) {
   const { id, prompt, answers, correctIndex } = question;
 
   const options = answers.map((answer, index) => (
@@ -10,37 +9,15 @@ function QuestionItem({ question, onDeleteQuestion }) {
     </option>
   ));
 
-  function handleDelete() {
-    fetch(`http://localhost:4000/questions/${QuestionItem.id}`, {
-      method: "DELETE",
-    })
-      .then((res) => res.json())
-      .then(() => onDeleteQuestion(question))
-  }
-{/*}
-  function handleChangeAnswer() {
-    fetch(`http://localhost:4000/questions/${id}`), {
-      method: "PATCH",
-      headers: {
-        "content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        //"correctIndex": selectedQuestionId,
-      })
-      .then((res) => res.json())
-      .then(() => handleDelete(question))
-    }
-  }
-*/}
   return (
     <li>
       <h4>Question {id}</h4>
       <h5>Prompt: {prompt}</h5>
       <label>
         Correct Answer:
-        <select defaultValue={correctIndex}>{options}</select>
+        <select defaultValue={correctIndex} onChange={(event)=>onChange(id, event.target.value)}>{options}</select>
       </label>
-      <button>Delete Question</button>
+      <button onClick={()=>onDelete(id)}>Delete Question</button>
     </li>
   );
 }
